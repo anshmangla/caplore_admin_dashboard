@@ -1,6 +1,10 @@
 import { Pool } from 'pg';
 
 // We reuse a single pool across the app
+declare global {
+  var _pgPool: Pool | undefined;
+}
+
 let pool: Pool;
 
 if (!global._pgPool) {
