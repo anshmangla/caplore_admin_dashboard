@@ -12,7 +12,7 @@ export async function loginAction(formData: FormData) {
     // Set a secure HTTP-only cookie that expires in 24 hours
     cookieStore.set('admin_session', 'authenticated', {
       httpOnly: true,
-      secure: false, // Temporarily disabled until you set up HTTPS/SSL
+      secure: process.env.NODE_ENV === 'production', // Re-enabled for Cloudflare HTTPS
       maxAge: 60 * 60 * 24, // 24 hours
       path: '/',
     });
