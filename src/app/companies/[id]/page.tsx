@@ -17,12 +17,24 @@ export default async function CompanyManageDataPage({ params }: { params: Promis
   }
   const company = companyRes.rows[0];
 
-  // Fetch Promoters
-  const promotersRes = await pool.query(
-    `SELECT * FROM company_promoters WHERE company_id = $1 ORDER BY id ASC`, 
-    [companyId]
-  );
-  const promoters = promotersRes.rows;
+  // Fetch all related data in parallel
+  const [
+    promotersRes,
+    statsRes,
+    financialsRes,
+    analysisRes,
+    comparablesRes,
+    documentsRes,
+    timelineRes
+  ] = await Promise.all([
+    pool.query(`SELECT * FROM company_promoters WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_stats WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_financials WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_analysis WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_comparables WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_documents WHERE company_id = $1 ORDER BY id ASC`, [companyId]),
+    pool.query(`SELECT * FROM company_timeline_events WHERE company_id = $1 ORDER BY id ASC`, [companyId])
+  ]);
 
   return (
     <div className="p-8 font-sans min-h-screen bg-gray-50 text-gray-900">
@@ -40,7 +52,16 @@ export default async function CompanyManageDataPage({ params }: { params: Promis
         </div>
 
         {/* Tabbed Interface */}
-        <CompanyTabs company={company} promoters={promoters} />
+        <CompanyTabs 
+          company={company} 
+          promoters={promotersRes.rows} 
+          stats={statsRes.rows}
+          financials={financialsRes.rows}
+          analysis={analysisRes.rows}
+          comparables={comparablesRes.rows}
+          documents={documentsRes.rows}
+          timeline={timelineRes.rows}
+        />
 
       </div>
     </div>
