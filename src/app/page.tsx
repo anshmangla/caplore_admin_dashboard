@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import pool from '@/lib/db';
 import { createCompany } from './actions';
+import { logoutAction } from './login/actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,8 +16,15 @@ export default async function Home() {
 
   return (
     <div className="p-8 font-sans min-h-screen bg-gray-50 text-gray-900">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Caplore Admin Dashboard</h1>
+      <div className="max-w-5xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-black">Caplore Admin Dashboard</h1>
+          <form action={logoutAction}>
+            <button type="submit" className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition-colors">
+              Logout
+            </button>
+          </form>
+        </div>
         
         <div className="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-200">
           <h2 className="text-xl font-semibold mb-4 text-black">Add New Company</h2>
