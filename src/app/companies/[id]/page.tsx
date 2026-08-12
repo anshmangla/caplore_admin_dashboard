@@ -5,8 +5,10 @@ import CompanyTabs from './components/CompanyTabs';
 
 export const dynamic = 'force-dynamic';
 
-export default async function CompanyManageDataPage({ params }: { params: { id: string } }) {
-  const companyId = params.id;
+export default async function CompanyManageDataPage({ params }: { params: Promise<{ id: string }> }) {
+  // In Next.js 15+, params is a Promise that must be awaited
+  const resolvedParams = await params;
+  const companyId = resolvedParams.id;
 
   // Fetch Base Company Data
   const companyRes = await pool.query(`SELECT * FROM companies WHERE id = $1`, [companyId]);
