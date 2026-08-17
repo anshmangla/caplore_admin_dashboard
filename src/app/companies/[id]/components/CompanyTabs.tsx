@@ -9,6 +9,7 @@ import AnalysisEditor from './AnalysisEditor';
 import ComparablesEditor from './ComparablesEditor';
 import DocumentsEditor from './DocumentsEditor';
 import TimelineEditor from './TimelineEditor';
+import InvestmentEditor from './InvestmentEditor';
 
 export default function CompanyTabs({ 
   company, 
@@ -24,6 +25,7 @@ export default function CompanyTabs({
 
   const tabs = [
     { id: 'overview', label: 'Overview' },
+    { id: 'investment', label: 'Investment Data' },
     { id: 'stats', label: 'Stats' },
     { id: 'financials', label: 'Financials' },
     { id: 'promoters', label: 'Promoters' },
@@ -55,6 +57,7 @@ export default function CompanyTabs({
       {/* Tab Content */}
       <div className="p-6">
         {activeTab === 'overview' && <BaseDetailsForm company={company} />}
+        {activeTab === 'investment' && <InvestmentEditor company={company} />}
         {activeTab === 'stats' && <StatsEditor companyId={company.id} stats={stats} />}
         {activeTab === 'financials' && <FinancialsEditor companyId={company.id} financials={financials} />}
         {activeTab === 'promoters' && <PromotersListEditor companyId={company.id} promoters={promoters} />}

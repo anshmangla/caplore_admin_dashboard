@@ -25,6 +25,37 @@ export async function updateCompanyDetails(id: string, formData: FormData) {
   revalidatePath(`/companies/${id}`);
 }
 
+export async function updateInvestmentDetails(id: string, formData: FormData) {
+  const amount_default = formData.get('investment_amount_default') as string;
+  const minimum_note = formData.get('investment_minimum_note') as string;
+  const investor_initials = formData.get('investment_investor_initials') as string;
+  const interested_investors = formData.get('investment_interested_investors') as string;
+  const raise_raised = formData.get('raise_raised') as string;
+  const raise_target = formData.get('raise_target') as string;
+  const raise_percent = formData.get('raise_percent') as string;
+  const raise_remaining = formData.get('raise_remaining') as string;
+  const raise_investors = formData.get('raise_investors') as string;
+  const raise_days_left = formData.get('raise_days_left') as string;
+  const raise_average_ticket = formData.get('raise_average_ticket') as string;
+
+  await pool.query(
+    `UPDATE companies SET 
+      investment_amount_default = $1, investment_minimum_note = $2, investment_investor_initials = $3, 
+      investment_interested_investors = $4, raise_raised = $5, raise_target = $6, raise_percent = $7, 
+      raise_remaining = $8, raise_investors = $9, raise_days_left = $10, raise_average_ticket = $11,
+      updated_at = NOW()
+    WHERE id = $12`,
+    [
+      amount_default || null, minimum_note || null, investor_initials || null, 
+      interested_investors ? parseInt(interested_investors, 10) : null, raise_raised || null, raise_target || null, 
+      raise_percent ? parseInt(raise_percent, 10) : null, raise_remaining || null, raise_investors || null, 
+      raise_days_left || null, raise_average_ticket || null, id
+    ]
+  );
+
+  revalidatePath(`/companies/${id}`);
+}
+
 export async function addPromoter(id: string, formData: FormData) {
   const name = formData.get('name') as string;
   const initials = formData.get('initials') as string;
