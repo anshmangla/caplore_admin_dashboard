@@ -14,11 +14,11 @@ export async function getUsers() {
 }
 
 export async function createUser(formData: FormData) {
-  const username = formData.get('username') as string;
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const phone_number = formData.get('phone_number') as string;
-  const password = formData.get('password') as string;
+  const username = (formData.get('username') as string || '').trim();
+  const name = (formData.get('name') as string || '').trim();
+  const email = (formData.get('email') as string || '').trim().toLowerCase();
+  const phone_number = (formData.get('phone_number') as string || '').trim();
+  const password = formData.get('password') as string || '';
 
   if (!password) {
     return { error: 'Password is required for new users' };
@@ -44,11 +44,11 @@ export async function createUser(formData: FormData) {
 }
 
 export async function updateUser(id: string, formData: FormData) {
-  const username = formData.get('username') as string;
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const phone_number = formData.get('phone_number') as string;
-  const password = formData.get('password') as string;
+  const username = (formData.get('username') as string || '').trim();
+  const name = (formData.get('name') as string || '').trim();
+  const email = (formData.get('email') as string || '').trim().toLowerCase();
+  const phone_number = (formData.get('phone_number') as string || '').trim();
+  const password = formData.get('password') as string || '';
 
   try {
     if (password && password.trim() !== '') {
