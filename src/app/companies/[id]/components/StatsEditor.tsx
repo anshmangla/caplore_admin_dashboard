@@ -48,6 +48,8 @@ export default function StatsEditor({ companyId, stats }: { companyId: string, s
               <option value="hero">Hero Stat</option>
               <option value="overview_facts">Overview Fact</option>
               <option value="overview_scores">Overview Score</option>
+              <option value="investment_details">Investment Details</option>
+              <option value="investment_observations">AI Observations</option>
             </select>
           </div>
           <div className="col-span-1">
